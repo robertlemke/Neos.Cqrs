@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\UnitOfWork;
 use Neos\EventSourcing\Exception;
-use Neos\Flow\Log\SystemLoggerInterface;
+use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Flow\Annotations as Flow;
 
 /**
@@ -30,7 +30,7 @@ class DoctrineProjectionPersistenceManager
 
     /**
      * @Flow\Inject
-     * @var SystemLoggerInterface
+     * @var PsrSystemLoggerInterface
      */
     protected $systemLogger;
 
@@ -147,7 +147,7 @@ class DoctrineProjectionPersistenceManager
     public function persistAll()
     {
         if (!$this->entityManager->isOpen()) {
-            $this->systemLogger->log('persistAll() skipped flushing data, the Doctrine EntityManager is closed. Check the logs for error message.', LOG_ERR);
+            $this->systemLogger->error('persistAll() skipped flushing data, the Doctrine EntityManager is closed. Check the logs for error message.');
             return;
         }
 
@@ -158,7 +158,7 @@ class DoctrineProjectionPersistenceManager
             $connection = $this->entityManager->getConnection();
             $connection->close();
             $connection->connect();
-            $this->systemLogger->log('Reconnected the Doctrine EntityManager to the persistence backend.', LOG_INFO);
+            $this->systemLogger->info('Reconnected the Doctrine EntityManager to the persistence backend.');
             $this->entityManager->flush();
         }
     }
