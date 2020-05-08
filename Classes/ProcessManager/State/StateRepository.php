@@ -11,10 +11,8 @@ namespace Neos\EventSourcing\ProcessManager\State;
  * source code.
  */
 
-use Doctrine\Common\Persistence\ObjectManager as DoctrineObjectManager;
-use Doctrine\ORM\EntityManager as DoctrineEntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Log\SystemLoggerInterface;
 
 /**
  * A repository specialized on Process States
@@ -25,23 +23,9 @@ final class StateRepository
 {
     /**
      * @Flow\Inject
-     * @var SystemLoggerInterface
+     * @var EntityManagerInterface
      */
-    protected $systemLogger;
-
-    /**
-     * @var DoctrineEntityManager
-     */
-    private $entityManager;
-
-    /**
-     * @param DoctrineObjectManager $entityManager
-     * @return void
-     */
-    public function injectEntityManager(DoctrineObjectManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
+    protected $entityManager;
 
     /**
      * @param string $identifier

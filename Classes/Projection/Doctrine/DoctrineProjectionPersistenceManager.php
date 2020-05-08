@@ -12,7 +12,7 @@ namespace Neos\EventSourcing\Projection\Doctrine;
  */
 
 use Doctrine\Common\Persistence\ObjectManager as DoctrineObjectManager;
-use Doctrine\ORM\EntityManager as DoctrineEntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\UnitOfWork;
 use Neos\EventSourcing\Exception;
@@ -35,23 +35,15 @@ class DoctrineProjectionPersistenceManager
     protected $systemLogger;
 
     /**
-     * @var DoctrineEntityManager
+     * @Flow\Inject
+     * @var EntityManagerInterface
      */
-    private $entityManager;
+    protected $entityManager;
 
     /**
      * @var int
      */
     private $numberOfPendingChanges = 0;
-
-    /**
-     * @param DoctrineObjectManager $entityManager
-     * @return void
-     */
-    public function injectEntityManager(DoctrineObjectManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
 
     /**
      * Returns an object with the given $identifier from persistence.
