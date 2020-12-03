@@ -338,6 +338,8 @@ class DoctrineEventStorage implements EventStorageInterface
         $table->setPrimaryKey(['sequencenumber']);
         $table->addUniqueIndex(['id'], 'id_uniq');
         $table->addUniqueIndex(['stream', 'version'], 'stream_version_uniq');
+        $table->addIndex(['correlationidentifier']);
+        $table->addIndex(['type']);
 
         return $schema;
     }
